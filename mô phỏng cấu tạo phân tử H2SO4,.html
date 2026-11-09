@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>H₂SO₄ – Từ cấu tạo phân tử đến liên kết hydrogen</title>
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --primary-light: #e0f2fe;
+            --secondary: #475569;
+            --success: #16a34a;
+            --success-light: #dcfce7;
+            --warning: #d97706;
+            --warning-light: #fef3c7;
+            --danger: #dc2626;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --border-color: #cbd5e1;
+            --radius: 14px;
+            --shadow: 0 4px 15px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .header-inner {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        .app-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .app-badge {
+            background: var(--primary);
+            color: #fff;
+            padding: 3px 9px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .tabs-nav {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: max-content;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background: #f1f5f9;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .tab-btn:hover {
+            background: #e2e8f0;
+            color: var(--text-dark);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Main Container */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .tab-section {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .tab-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Layout Grids */
+        .layout-tab1 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+
+        @media (min-width: 900px) {
+            .layout-tab1 {
+                grid-template-columns: 1.55fr 1fr;
+                align-items: start;
+            }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Banner Nhiệm vụ & Trạng thái */
+        .status-banner {
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-card);
+            transition: all 0.25s ease;
+        }
+
+        .status-banner.info {
+            background: var(--primary-light);
+            border-color: #7dd3fc;
+            color: #0c4a6e;
+        }
+
+        .status-banner.success {
+            background: var(--success-light);
+            border-color: #4ade80;
+            color: #14532d;
+        }
+
+        .status-banner.warning {
+            background: var(--warning-light);
+            border-color: #fbbf24;
+            color: #78350f;
+        }
+
+        .status-icon {
+            font-size: 1.35rem;
+            line-height: 1.2;
+            flex-shrink: 0;
+        }
+
+        /* Canvas Viewport */
+        .canvas-wrap {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%);
+            touch-action: none;
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .canvas-wrap {
+                height: 460px;
+            }
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+
+        canvas:active {
+            cursor: grabbing;
+        }
+
+        /* Overlays on Canvas */
+        .canvas-legend {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(4px);
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            pointer-events: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .atom-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .atom-dot.s { background: #facc15; border: 1.5px solid #a16207; }
+        .atom-dot.o { background: #ef4444; border: 1.5px solid #991b1b; }
+        .atom-dot.h { background: #ffffff; border: 2px solid #334155; }
+
+        /* Controls Bar */
+        .controls-bar {
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn {
+            min-height: 44px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+
+        .btn:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #ffffff;
+            border-color: var(--success);
+        }
+
+        .btn-success:hover {
+            background: #15803d;
+        }
+
+        .btn-mode {
+            background: #f1f5f9;
+            color: var(--text-muted);
+        }
+
+        .btn-mode.active {
+            background: #0f172a;
+            color: #ffffff;
+            border-color: #0f172a;
+        }
+
+        /* 2D Formula Card */
+        .formula-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .svg-formula-box {
+            width: 100%;
+            max-width: 320px;
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        .info-panel {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 0.9rem;
+        }
+
+        .info-panel h4 {
+            color: var(--primary);
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .equation-box {
+            margin-top: 8px;
+            padding: 8px 10px;
+            background: #ffffff;
+            border-radius: 8px;
+            border-left: 4px solid var(--success);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        /* Atom Inspector Popup in Tab 2 */
+        .atom-inspector {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            background: rgba(15, 23, 42, 0.92);
+            color: #ffffff;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+        }
+
+        @media (min-width: 640px) {
+            .atom-inspector {
+                right: auto;
+                max-width: 440px;
+            }
+        }
+
+        .inspector-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Quiz Section */
+        .quiz-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .quiz-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-q-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            display: flex;
+            gap: 8px;
+        }
+
+        .q-num {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .options-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        @media (min-width: 600px) {
+            .options-list.cols-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .opt-btn {
+            min-height: 48px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            background: #f8fafc;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .opt-btn:hover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+
+        .opt-btn.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: #0369a1;
+        }
+
+        .opt-btn.correct {
+            border-color: var(--success);
+            background: var(--success-light);
+            color: #14532d;
+        }
+
+        .opt-btn.wrong {
+            border-color: var(--danger);
+            background: #fee2e2;
+            color: #7f1d1d;
+        }
+
+        .quiz-feedback {
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            display: block;
+            background: var(--success-light);
+            border: 1.5px solid #4ade80;
+            color: #14532d;
+        }
+
+        .quiz-feedback.wrong {
+            display: block;
+            background: #fee2e2;
+            border: 1.5px solid #f87171;
+            color: #7f1d1d;
+        }
+
+        .interactive-svg-quiz {
+            width: 100%;
+            max-width: 340px;
+            margin: 12px auto;
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 8px;
+            display: block;
+        }
+
+        .clickable-atom {
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        .clickable-atom:hover {
+            filter: brightness(0.95);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="app-title">
+            <span class="app-badge">HÓA HỌC 11</span>
+            <span>H₂SO₄ – Từ cấu tạo phân tử đến liên kết hydrogen</span>
+        </div>
+        <nav class="tabs-nav" aria-label="Điều hướng mô phỏng">
+            <button class="tab-btn active" id="nav-tab1" onclick="switchTab(1)">
+                <span>1. Khám phá cấu tạo</span>
+            </button>
+            <button class="tab-btn" id="nav-tab2" onclick="switchTab(2)">
+                <span>2. Tạo liên kết Hydrogen</span>
+            </button>
+            <button class="tab-btn" id="nav-tab3" onclick="switchTab(3)">
+                <span>3. Kiểm tra nhanh</span>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- ==================== THẺ 1: KHÁM PHÁ CẤU TẠO PHÂN TỬ ==================== -->
+    <section id="section-tab1" class="tab-section active">
+        <div id="tab1-banner" class="status-banner info">
+            <div class="status-icon">🎯</div>
+            <div id="tab1-banner-text">
+                <strong>Nhiệm vụ học tập:</strong> Kéo trên màn hình để xoay phân tử 3D. Hãy <strong>chạm vào hai nguyên tử H có thể được nhường dưới dạng H⁺</strong> (Đã chọn: <span id="tab1-count">0/2</span>).
+            </div>
+        </div>
+
+        <div class="layout-tab1">
+            <!-- Cột Mô hình 3D -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span>Mô hình que – cầu 3D của phân tử H₂SO₄</span>
+                    </div>
+                    <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;">
+                        Kéo để xoay • Cuộn hoặc bấm nút để thu phóng
+                    </span>
+                </div>
+
+                <div class="canvas-wrap" id="wrap-canvas1">
+                    <canvas id="canvas1"></canvas>
+                    <div class="canvas-legend">
+                        <div class="legend-item"><span class="atom-dot s"></span> S (Lưu huỳnh)</div>
+                        <div class="legend-item"><span class="atom-dot o"></span> O (Oxygen)</div>
+                        <div class="legend-item"><span class="atom-dot h"></span> H (Hydrogen)</div>
+                    </div>
+                </div>
+
+                <div class="controls-bar">
+                    <div class="btn-group">
+                        <button class="btn" onclick="zoomTab1(1.15)" title="Phóng to">🔍 Phóng to (+)</button>
+                        <button class="btn" onclick="zoomTab1(0.87)" title="Thu nhỏ">🔍 Thu nhỏ (–)</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn" id="btn-toggle-labels" onclick="toggleAtomLabels()">🏷️ Ẩn/Hiện nhãn ký hiệu</button>
+                        <button class="btn" onclick="resetTab1View()">🔄 Đặt lại góc nhìn</button>
+                        <button class="btn btn-primary" onclick="resetTab1Task()">✨ Làm lại nhiệm vụ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột Công thức cấu tạo 2D & Giải thích -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span>Công thức cấu tạo quy ước (2D)</span>
+                    </div>
+                </div>
+                <div class="formula-body">
+                    <div class="svg-formula-box">
+                        <svg viewBox="0 0 320 220" width="100%" height="auto" aria-label="Công thức cấu tạo HO-S(=O)2-OH">
+                            <!-- Nền highlight cho 2 nhóm -OH khi hoàn thành -->
+                            <g id="svg2d-oh-left-glow" opacity="0" transition="opacity 0.3s">
+                                <rect x="14" y="83" width="98" height="54" rx="26" fill="#dcfce7" stroke="#22c55e" stroke-width="2.5"/>
+                            </g>
+                            <g id="svg2d-oh-right-glow" opacity="0" transition="opacity 0.3s">
+                                <rect x="208" y="83" width="98" height="54" rx="26" fill="#dcfce7" stroke="#22c55e" stroke-width="2.5"/>
+                            </g>
+
+                            <!-- Liên kết đôi S=O trên -->
+                            <line x1="154" y1="88" x2="154" y2="48" stroke="#334155" stroke-width="3.5" stroke-linecap="round"/>
+                            <line x1="166" y1="88" x2="166" y2="48" stroke="#334155" stroke-width="3.5" stroke-linecap="round"/>
+
+                            <!-- Liên kết đôi S=O dưới -->
+                            <line x1="154" y1="132" x2="154" y2="172" stroke="#334155" stroke-width="3.5" stroke-linecap="round"/>
+                            <line x1="166" y1="132" x2="166" y2="172" stroke="#334155" stroke-width="3.5" stroke-linecap="round"/>
+
+                            <!-- Liên kết đơn S-O trái & phải -->
+                            <line x1="138" y1="110" x2="105" y2="110" stroke="#334155" stroke-width="3.5" stroke-linecap="round"/>
+                            <line x1="182" y1="110" x2="215" y2="110" stroke="#334155" stroke-width="3.5" stroke-linecap="round"/>
+
+                            <!-- Liên kết đơn O-H trái & phải -->
+                            <line id="svg2d-bond-oh1" x1="68" y1="110" x2="46" y2="110" stroke="#334155" stroke-width="3.5" stroke-linecap="round"/>
+                            <line id="svg2d-bond-oh2" x1="252" y1="110" x2="274" y2="110" stroke="#334155" stroke-width="3.5" stroke-linecap="round"/>
+
+                            <!-- Nguyên tử S ở tâm -->
+                            <circle cx="160" cy="110" r="20" fill="#fef08a" stroke="#ca8a04" stroke-width="2.5"/>
+                            <text x="160" y="117" text-anchor="middle" font-size="22" font-weight="800" fill="#854d0e">S</text>
+
+                            <!-- 2 Nguyên tử O của nhóm =O -->
+                            <circle cx="160" cy="30" r="17" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+                            <text x="160" y="37" text-anchor="middle" font-size="20" font-weight="800" fill="#991b1b">O</text>
+
+                            <circle cx="160" cy="190" r="17" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+                            <text x="160" y="197" text-anchor="middle" font-size="20" font-weight="800" fill="#991b1b">O</text>
+
+                            <!-- 2 Nguyên tử O của nhóm -OH -->
+                            <circle cx="87" cy="110" r="17" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+                            <text x="87" y="117" text-anchor="middle" font-size="20" font-weight="800" fill="#991b1b">O</text>
+
+                            <circle cx="233" cy="110" r="17" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+                            <text x="233" y="117" text-anchor="middle" font-size="20" font-weight="800" fill="#991b1b">O</text>
+
+                            <!-- 2 Nguyên tử H (có thể bấm trực tiếp hoặc đồng bộ với 3D) -->
+                            <g class="clickable-atom" onclick="toggleProton(4)">
+                                <circle id="svg2d-h1" cx="31" cy="110" r="15" fill="#ffffff" stroke="#334155" stroke-width="2.5"/>
+                                <text x="31" y="116" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a">H</text>
+                            </g>
+
+                            <g class="clickable-atom" onclick="toggleProton(5)">
+                                <circle id="svg2d-h2" cx="289" cy="110" r="15" fill="#ffffff" stroke="#334155" stroke-width="2.5"/>
+                                <text x="289" y="116" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a">H</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="info-panel">
+                        <h4>Đặc điểm cấu tạo phân tử H₂SO₄</h4>
+                        <ul style="padding-left: 18px; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px;">
+                            <li>Công thức cấu tạo quy ước: <strong>HO–S(=O)₂–OH</strong>.</li>
+                            <li>Nguyên tử <strong>S ở tâm</strong>, 4 nguyên tử O phân bố gần theo <strong>hình tứ diện</strong> quanh S.</li>
+                            <li>Gồm 2 liên kết đôi <strong>S=O</strong> (hai nét) và 2 nhóm <strong>–OH</strong> chứa liên kết đơn <strong>S–O</strong>, <strong>O–H</strong> (một nét).</li>
+                        </ul>
+
+                        <div id="tab1-explanation" style="display: none; margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border-color);">
+                            <strong style="color: var(--success);">✓ Giải thích tính acid mạnh (2 nấc):</strong>
+                            <p style="margin-top: 4px; color: var(--text-dark);">
+                                Hai liên kết <strong>O–H</strong> phân cực mạnh nên một phân tử H₂SO₄ có thể <strong>nhường tối đa 2 proton (H⁺)</strong> qua hai nấc trong dung dịch nước:
+                            </p>
+                            <div class="equation-box">
+                                Nấc 1: H₂SO₄ → H⁺ + HSO₄⁻<br>
+                                Nấc 2: HSO₄⁻ ⇌ H⁺ + SO₄²⁻
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== THẺ 2: TẠO LIÊN KẾT HYDROGEN ==================== -->
+    <section id="section-tab2" class="tab-section">
+        <div id="tab2-banner" class="status-banner info">
+            <div class="status-icon" id="tab2-banner-icon">🧲</div>
+            <div id="tab2-banner-text">
+                <strong>Hướng dẫn:</strong> Kéo <strong>Phân tử 2</strong> lại gần <strong>Phân tử 1</strong> và dùng nút <strong>“Xoay trái” / “Xoay phải”</strong> để nhóm <strong>–OH</strong> hướng thẳng vào nguyên tử <strong>O (thuộc S=O)</strong> của phân tử kia, tạo đoạn <strong>O–H···O</strong> gần thẳng hàng.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <span>Mô phỏng tương tác tạo liên kết Hydrogen giữa hai phân tử H₂SO₄</span>
+                </div>
+                <!-- Nút chuyển đổi tách biệt chế độ Di chuyển phân tử và Xoay góc nhìn -->
+                <div class="btn-group">
+                    <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Chế độ kéo trên màn hình:</span>
+                    <button id="mode-move-btn" class="btn btn-mode active" onclick="setTab2Mode('move')">
+                        ✋ Kéo di chuyển Phân tử 2
+                    </button>
+                    <button id="mode-camera-btn" class="btn btn-mode" onclick="setTab2Mode('camera')">
+                        🔄 Xoay góc nhìn 3D
+                    </button>
+                </div>
+            </div>
+
+            <div class="canvas-wrap" id="wrap-canvas2">
+                <canvas id="canvas2"></canvas>
+                <div class="canvas-legend">
+                    <div class="legend-item"><span class="atom-dot s"></span> S</div>
+                    <div class="legend-item"><span class="atom-dot o"></span> O</div>
+                    <div class="legend-item"><span class="atom-dot h"></span> H</div>
+                    <div class="legend-item" style="color: var(--primary);">💡 Chạm vào nguyên tử H hoặc O bất kỳ để xem vai trò</div>
+                </div>
+
+                <!-- Hộp thông tin khi học sinh chạm vào H hoặc O -->
+                <div id="atom-inspector" class="atom-inspector">
+                    <div id="atom-inspector-content"></div>
+                    <button class="inspector-close" onclick="closeInspector()" title="Đóng">✕</button>
+                </div>
+            </div>
+
+            <div class="controls-bar">
+                <div class="btn-group">
+                    <button class="btn" onclick="rotateMol2(-15)">↺ Xoay trái</button>
+                    <button class="btn" onclick="rotateMol2(15)">↻ Xoay phải</button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-success" onclick="showSampleTab2()">⭐ Xem mẫu</button>
+                    <button class="btn" onclick="resetTab2()">🔄 Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== THẺ 3: KIỂM TRA NHANH ==================== -->
+    <section id="section-tab3" class="tab-section">
+        <div class="quiz-grid">
+            <!-- Câu hỏi 1 -->
+            <div class="quiz-card">
+                <div class="quiz-q-title">
+                    <span class="q-num">1</span>
+                    <span>Một phân tử H₂SO₄ có thể nhường tối đa bao nhiêu proton (H⁺)? Hãy chọn số lượng và chạm trực tiếp vào vị trí của chúng trên mô hình dưới đây.</span>
+                </div>
+
+                <p style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">
+                    Bước 1: Chọn số proton tối đa có thể nhường:
+                </p>
+                <div class="options-list cols-2" id="q1-options">
+                    <button class="opt-btn" onclick="selectQ1Count(1, this)">A. 1 proton (H⁺)</button>
+                    <button class="opt-btn" onclick="selectQ1Count(2, this)">B. 2 proton (H⁺)</button>
+                    <button class="opt-btn" onclick="selectQ1Count(4, this)">C. 4 proton (H⁺)</button>
+                    <button class="opt-btn" onclick="selectQ1Count(6, this)">D. 6 proton (H⁺)</button>
+                </div>
+
+                <p style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted); margin-top: 14px;">
+                    Bước 2: Chạm vào các nguyên tử trên mô hình có thể nhường dưới dạng H⁺ (Đã chọn: <span id="q1-atom-status">0</span>):
+                </p>
+                <svg class="interactive-svg-quiz" viewBox="0 0 320 190">
+                    <!-- Liên kết -->
+                    <line x1="155" y1="75" x2="155" y2="38" stroke="#334155" stroke-width="3.5"/>
+                    <line x1="165" y1="75" x2="165" y2="38" stroke="#334155" stroke-width="3.5"/>
+                    <line x1="155" y1="115" x2="155" y2="152" stroke="#334155" stroke-width="3.5"/>
+                    <line x1="165" y1="115" x2="165" y2="152" stroke="#334155" stroke-width="3.5"/>
+                    <line x1="140" y1="95" x2="105" y2="95" stroke="#334155" stroke-width="3.5"/>
+                    <line x1="180" y1="95" x2="215" y2="95" stroke="#334155" stroke-width="3.5"/>
+                    <line x1="72" y1="95" x2="45" y2="95" stroke="#334155" stroke-width="3.5"/>
+                    <line x1="248" y1="95" x2="275" y2="95" stroke="#334155" stroke-width="3.5"/>
+
+                    <!-- S -->
+                    <g class="clickable-atom" onclick="toggleQ1Atom('S')">
+                        <circle id="q1-atom-S" cx="160" cy="95" r="19" fill="#fef08a" stroke="#ca8a04" stroke-width="2.5"/>
+                        <text x="160" y="102" text-anchor="middle" font-weight="800" font-size="20" fill="#854d0e">S</text>
+                    </g>
+                    <!-- O top/bottom -->
+                    <g class="clickable-atom" onclick="toggleQ1Atom('O1')">
+                        <circle id="q1-atom-O1" cx="160" cy="24" r="15" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+                        <text x="160" y="30" text-anchor="middle" font-weight="800" font-size="17" fill="#991b1b">O</text>
+                    </g>
+                    <g class="clickable-atom" onclick="toggleQ1Atom('O2')">
+                        <circle id="q1-atom-O2" cx="160" cy="166" r="15" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+                        <text x="160" y="172" text-anchor="middle" font-weight="800" font-size="17" fill="#991b1b">O</text>
+                    </g>
+                    <!-- O left/right -->
+                    <g class="clickable-atom" onclick="toggleQ1Atom('O3')">
+                        <circle id="q1-atom-O3" cx="88" cy="95" r="15" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+                        <text x="88" y="101" text-anchor="middle" font-weight="800" font-size="17" fill="#991b1b">O</text>
+                    </g>
+                    <g class="clickable-atom" onclick="toggleQ1Atom('O4')">
+                        <circle id="q1-atom-O4" cx="232" cy="95" r="15" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+                        <text x="232" y="101" text-anchor="middle" font-weight="800" font-size="17" fill="#991b1b">O</text>
+                    </g>
+                    <!-- H left/right -->
+                    <g class="clickable-atom" onclick="toggleQ1Atom('H1')">
+                        <circle id="q1-atom-H1" cx="30" cy="95" r="15" fill="#ffffff" stroke="#334155" stroke-width="2.5"/>
+                        <text x="30" y="101" text-anchor="middle" font-weight="800" font-size="17" fill="#0f172a">H</text>
+                    </g>
+                    <g class="clickable-atom" onclick="toggleQ1Atom('H2')">
+                        <circle id="q1-atom-H2" cx="290" cy="95" r="15" fill="#ffffff" stroke="#334155" stroke-width="2.5"/>
+                        <text x="290" y="101" text-anchor="middle" font-weight="800" font-size="17" fill="#0f172a">H</text>
+                    </g>
+                </svg>
+
+                <div id="q1-feedback" class="quiz-feedback"></div>
+            </div>
+
+            <!-- Câu hỏi 2 -->
+            <div class="quiz-card">
+                <div class="quiz-q-title">
+                    <span class="q-num">2</span>
+                    <span>Trong cấu trúc tương tác O–H···O giữa hai phân tử H₂SO₄, đoạn nào biểu diễn liên kết hydrogen?</span>
+                </div>
+                <div class="options-list" id="q2-options">
+                    <button class="opt-btn" onclick="answerQ2('A', this)">
+                        A. Đoạn O–H nét liền (trong cùng một phân tử H₂SO₄)
+                    </button>
+                    <button class="opt-btn" onclick="answerQ2('B', this)">
+                        B. Đoạn H···O nét đứt (giữa nguyên tử H linh động của phân tử này với nguyên tử O của phân tử bên cạnh)
+                    </button>
+                    <button class="opt-btn" onclick="answerQ2('C', this)">
+                        C. Liên kết đôi S=O trong mỗi phân tử H₂SO₄
+                    </button>
+                </div>
+                <div id="q2-feedback" class="quiz-feedback"></div>
+            </div>
+
+            <!-- Câu hỏi 3 -->
+            <div class="quiz-card">
+                <div class="quiz-q-title">
+                    <span class="q-num">3</span>
+                    <span>Dựa vào tương tác giữa các phân tử, hãy dự đoán sulfuric acid (H₂SO₄) dễ bay hơi hay khó bay hơi?</span>
+                </div>
+                <div class="options-list cols-2" id="q3-options">
+                    <button class="opt-btn" onclick="answerQ3('easy', this)">
+                        A. Dễ bay hơi ở điều kiện thường
+                    </button>
+                    <button class="opt-btn" onclick="answerQ3('hard', this)">
+                        B. Rất khó bay hơi (nhiệt độ sôi cao)
+                    </button>
+                </div>
+                <div id="q3-feedback" class="quiz-feedback"></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+/* ============================================================================
+   DỮ LIỆU HÌNH HỌC PHÂN TỬ H2SO4 & CÁC HÀM TOÁN HỌC 3D
+   ============================================================================ */
+
+let showAtomSymbolLabels = true;
+
+function toggleAtomLabels() {
+    showAtomSymbolLabels = !showAtomSymbolLabels;
+    renderTab1();
+    renderTab2();
+}
+
+/**
+ * Khởi tạo tọa độ 3D chuẩn của các nguyên tử trong phân tử H2SO4 (tâm S tại 0,0,0)
+ * Mô phỏng chính xác cấu trúc tứ diện và góc liên kết C–O–H / S–O–H thực tế như hình mẫu:
+ * - S ở tâm (0, 0, 0)
+ * - 2 nguyên tử O thuộc nhóm =O: một hướng lên trên-phải, một hướng sang trái-sau
+ * - 2 nguyên tử O thuộc nhóm –OH: một hướng xuống dưới-trái, một hướng sang phải-dưới,
+ *   kèm 2 nguyên tử H tạo góc liên kết S–O–H (~109°) nổi khối 3D rõ rệt.
+ */
+function createH2SO4Atoms() {
+    return [
+        // id 0: Nguyên tử S ở tâm
+        { id: 0, el: 'S', x: 0, y: 0, z: 0, r: 30, role: 'central', label: 'S' },
+        // id 1: O thuộc nhóm -OH dưới-trái
+        { id: 1, el: 'O', x: -42, y: 58, z: 32, r: 22, role: 'oh_oxygen', label: 'O (nhóm –OH)' },
+        // id 2: O thuộc nhóm -OH phải (Đóng vai trò cho liên kết H ở Thẻ 2)
+        { id: 2, el: 'O', x: 66, y: 18, z: 12, r: 22, role: 'oh_oxygen_donor', label: 'O (nhóm –OH)' },
+        // id 3: O thuộc nhóm S=O trái-trên (Đóng vai trò nhận liên kết H ở Thẻ 2)
+        { id: 3, el: 'O', x: -54, y: -26, z: -42, r: 22, role: 'so_oxygen_acceptor', label: 'O (nhóm S=O)' },
+        // id 4: O thuộc nhóm S=O trên-phải
+        { id: 4, el: 'O', x: 24, y: -64, z: 26, r: 22, role: 'so_oxygen', label: 'O (nhóm S=O)' },
+        // id 5: H gắn với O1 (nhóm -OH dưới-trái)
+        { id: 5, el: 'H', x: -46, y: 102, z: 20, r: 15.5, role: 'proton', label: 'H (nhóm –OH)' },
+        // id 6: H gắn với O2 (nhóm -OH phải - hướng sang phải-dưới)
+        { id: 6, el: 'H', x: 104, y: 42, z: 12, r: 15.5, role: 'proton_donor', label: 'H (nhóm –OH)' }
+    ];
+}
+
+// Danh sách các liên kết trong một phân tử H2SO4
+// order: 1 (một nét cho S-O và O-H), 2 (hai nét cho S=O)
+const H2SO4_BONDS = [
+    { a: 0, b: 1, order: 1, type: 'S-O', elA: 'S', elB: 'O' },
+    { a: 0, b: 2, order: 1, type: 'S-O', elA: 'S', elB: 'O' },
+    { a: 0, b: 3, order: 2, type: 'S=O', elA: 'S', elB: 'O' },
+    { a: 0, b: 4, order: 2, type: 'S=O', elA: 'S', elB: 'O' },
+    { a: 1, b: 5, order: 1, type: 'O-H', elA: 'O', elB: 'H', ohGroup: 1 },
+    { a: 2, b: 6, order: 1, type: 'O-H', elA: 'O', elB: 'H', ohGroup: 2 }
+];
+
+// Xoay điểm 3D quanh trục Z (dùng cho nút Xoay trái / Xoay phải phân tử 2)
+function rotatePointZ(p, deg) {
+    const rad = deg * Math.PI / 180;
+    const c = Math.cos(rad);
+    const s = Math.sin(rad);
+    return {
+        x: p.x * c - p.y * s,
+        y: p.x * s + p.y * c,
+        z: p.z
+    };
+}
+
+// Xoay điểm 3D theo góc nhìn Camera (rotX, rotY)
+function transformCamera(p, rotX, rotY) {
+    // Xoay quanh trục Y
+    const cy = Math.cos(rotY), sy = Math.sin(rotY);
+    const x1 = p.x * cy + p.z * sy;
+    const z1 = -p.x * sy + p.z * cy;
+    // Xoay quanh trục X
+    const cx = Math.cos(rotX), sx = Math.sin(rotX);
+    const y2 = p.y * cx - z1 * sx;
+    const z2 = p.y * sx + z1 * cx;
+    return { x: x1, y: y2, z: z2 };
+}
+
+// Chiếu điểm từ không gian Camera sang tọa độ màn hình 2D
+function projectPoint(camPt, cx, cy, scale) {
+    const fov = 680;
+    const persp = fov / (fov - camPt.z * 0.52);
+    return {
+        sx: cx + camPt.x * scale * persp,
+        sy: cy + camPt.y * scale * persp,
+        sz: camPt.z,
+        sFactor: scale * persp
+    };
+}
+
+/* ============================================================================
+   HÀM VẼ NGUYÊN TỬ & LIÊN KẾT QUE - CẦU 3D PHONG SHADING CHÂN THỰC
+   ============================================================================ */
+
+function getElementBondPalette(el) {
+    if (el === 'S') {
+        return { base: '#d4c618', highlight: '#fef08a', shadow: '#716207' };
+    } else if (el === 'O') {
+        return { base: '#dc2626', highlight: '#f87171', shadow: '#7f1d1d' };
+    } else {
+        return { base: '#e2e8f0', highlight: '#ffffff', shadow: '#64748b' };
+    }
+}
+
+function drawSphereAtom(ctx, sx, sy, radius, element, options = {}) {
+    ctx.save();
+
+    // Hào quang phát sáng khi được chọn hoặc hoàn thành nhiệm vụ
+    if (options.glowColor) {
+        const glowGrad = ctx.createRadialGradient(sx, sy, radius * 0.7, sx, sy, radius + 14);
+        glowGrad.addColorStop(0, options.glowColor);
+        glowGrad.addColorStop(1, 'rgba(34, 197, 94, 0)');
+        ctx.beginPath();
+        ctx.arc(sx, sy, radius + 14, 0, Math.PI * 2);
+        ctx.fillStyle = glowGrad;
+        ctx.fill();
+    }
+
+    // Đổ bóng mềm tạo chiều sâu không gian 3D
+    ctx.shadowColor = 'rgba(15, 23, 42, 0.34)';
+    ctx.shadowBlur = Math.max(8, radius * 0.45);
+    ctx.shadowOffsetX = radius * 0.12;
+    ctx.shadowOffsetY = radius * 0.18;
+
+    // Gradient cầu 3D bóng mượt kiểu Phong-shading (giống hệt phần mềm Jmol / Avogadro)
+    const lightX = sx - radius * 0.32;
+    const lightY = sy - radius * 0.34;
+    const grad = ctx.createRadialGradient(
+        lightX, lightY, radius * 0.04,
+        sx, sy, radius
+    );
+
+    if (element === 'S') {
+        // Màu vàng 3D rực rỡ cho Lưu huỳnh (S)
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.16, '#fef08a');
+        grad.addColorStop(0.52, '#eab308');
+        grad.addColorStop(0.84, '#a16207');
+        grad.addColorStop(1, '#422006');
+        ctx.fillStyle = grad;
+        ctx.strokeStyle = 'rgba(66, 32, 6, 0.55)';
+        ctx.lineWidth = 1.2;
+    } else if (element === 'O') {
+        // Màu đỏ 3D bóng sâu cho Oxygen (O)
+        grad.addColorStop(0, '#ffd6d6');
+        grad.addColorStop(0.15, '#f87171');
+        grad.addColorStop(0.50, '#dc2626');
+        grad.addColorStop(0.84, '#7f1d1d');
+        grad.addColorStop(1, '#3b0707');
+        ctx.fillStyle = grad;
+        ctx.strokeStyle = 'rgba(59, 7, 7, 0.55)';
+        ctx.lineWidth = 1.2;
+    } else {
+        // Màu trắng ngọc trai 3D có viền cho Hydrogen (H)
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.28, '#f8fafc');
+        grad.addColorStop(0.68, '#cbd5e1');
+        grad.addColorStop(0.92, '#64748b');
+        grad.addColorStop(1, '#334155');
+        ctx.fillStyle = grad;
+        ctx.strokeStyle = options.selected ? '#16a34a' : '#475569';
+        ctx.lineWidth = options.selected ? 3 : 1.6;
+    }
+
+    ctx.beginPath();
+    ctx.arc(sx, sy, radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowColor = 'transparent';
+    ctx.stroke();
+
+    // Đốm phản quang specular 3D bóng loáng trên bề mặt cầu
+    const specGrad = ctx.createRadialGradient(
+        lightX, lightY, 0,
+        lightX, lightY, radius * 0.42
+    );
+    specGrad.addColorStop(0, 'rgba(255, 255, 255, 0.72)');
+    specGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.18)');
+    specGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.beginPath();
+    ctx.arc(lightX, lightY, radius * 0.42, 0, Math.PI * 2);
+    ctx.fillStyle = specGrad;
+    ctx.fill();
+
+    // Hiển thị ký hiệu nguyên tố rõ nét (có thể bật/tắt để ngắm mô hình 3D thuần túy)
+    if (showAtomSymbolLabels) {
+        ctx.fillStyle = (element === 'O') ? 'rgba(255, 255, 255, 0.94)' : 'rgba(15, 23, 42, 0.88)';
+        ctx.font = `800 ${Math.max(11, Math.round(radius * 0.68))}px system-ui, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(element, sx + radius * 0.08, sy + radius * 0.12);
+    }
+
+    ctx.restore();
+}
+
+/**
+ * Vẽ một đoạn ống trụ 3D giữa hai điểm (x1, y1) -> (x2, y2) với hiệu ứng đổ bóng hình trụ tròn
+ */
+function drawCylinderSegment(ctx, x1, y1, x2, y2, thickness, palette, nx, ny) {
+    const halfT = thickness / 2;
+    const grad = ctx.createLinearGradient(
+        x1 - nx * halfT, y1 - ny * halfT,
+        x1 + nx * halfT, y1 + ny * halfT
+    );
+    grad.addColorStop(0, palette.shadow);
+    grad.addColorStop(0.28, palette.base);
+    grad.addColorStop(0.52, palette.highlight);
+    grad.addColorStop(0.78, palette.base);
+    grad.addColorStop(1, palette.shadow);
+
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = thickness;
+    ctx.lineCap = 'butt';
+    ctx.stroke();
+
+    // Bo tròn 2 đầu khớp nối vào quả cầu
+    ctx.beginPath();
+    ctx.arc(x1, y1, halfT * 0.95, 0, Math.PI * 2);
+    ctx.fillStyle = palette.base;
+    ctx.fill();
+}
+
+/**
+ * Vẽ liên kết que 3D chia 2 nửa màu (bicolor cylinder) đúng chuẩn mô hình hóa học 3D:
+ * - Nửa gắn với S có màu vàng, nửa gắn với O có màu đỏ
+ * - Nửa gắn với O có màu đỏ, nửa gắn với H có màu trắng
+ * - Liên kết đôi S=O gồm 2 ống trụ song song
+ */
+function drawStickBond(ctx, p1, p2, order, options = {}) {
+    const dx = p2.sx - p1.sx;
+    const dy = p2.sy - p1.sy;
+    const len = Math.hypot(dx, dy);
+    if (len < 1) return;
+
+    const nx = -dy / len;
+    const ny = dx / len;
+    const avgScale = (p1.sFactor + p2.sFactor) / 2;
+
+    const palA = getElementBondPalette(options.elA || 'S');
+    const palB = getElementBondPalette(options.elB || 'O');
+
+    ctx.save();
+
+    if (options.highlightGlow) {
+        ctx.beginPath();
+        ctx.moveTo(p1.sx, p1.sy);
+        ctx.lineTo(p2.sx, p2.sy);
+        ctx.strokeStyle = options.highlightGlow;
+        ctx.lineWidth = 22 * avgScale;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+    }
+
+    // Điểm chia 2 nửa màu (tính theo bán kính từng nguyên tử để điểm nối nằm đúng giữa khoảng trống)
+    const r1 = p1.rProj || 18;
+    const r2 = p2.rProj || 18;
+    const tMid = Math.max(0.35, Math.min(0.65, (r1 * 0.7 + (len - r1 * 0.7 - r2 * 0.7) * 0.5) / len));
+    const midX = p1.sx + dx * tMid;
+    const midY = p1.sy + dy * tMid;
+
+    if (order === 1) {
+        const cylThickness = Math.max(6, (options.width || 10.5) * avgScale);
+        drawCylinderSegment(ctx, p1.sx, p1.sy, midX, midY, cylThickness, palA, nx, ny);
+        drawCylinderSegment(ctx, p2.sx, p2.sy, midX, midY, cylThickness, palB, nx, ny);
+    } else if (order === 2) {
+        // Vẽ 2 thanh trụ song song cho liên kết đôi S=O như hình mẫu
+        const offset = 6.8 * avgScale;
+        const cylThickness = Math.max(4.5, 7.6 * avgScale);
+        for (let sign of [-1, 1]) {
+            const ox = nx * offset * sign;
+            const oy = ny * offset * sign;
+            drawCylinderSegment(ctx, p1.sx + ox, p1.sy + oy, midX + ox, midY + oy, cylThickness, palA, nx, ny);
+            drawCylinderSegment(ctx, p2.sx + ox, p2.sy + oy, midX + ox, midY + oy, cylThickness, palB, nx, ny);
+        }
+    }
+
+    ctx.restore();
+}
+
+/* ============================================================================
+   THẺ 1: LOGIC KHÁM PHÁ CẤU TẠO PHÂN TỬ H2SO4
+   ============================================================================ */
+
+const stateTab1 = {
+    atoms: createH2SO4Atoms(),
+    rotX: 0.08,
+    rotY: 0.05,
+    scale: 1.42,
+    selectedProtons: new Set(), // Lưu id 5 và 6 (hai nguyên tử H thuộc -OH)
+    dragging: false,
+    startX: 0,
+    startY: 0,
+    hasMoved: false,
+    projectedAtoms: []
+};
+
+function initTab1() {
+    const canvas = document.getElementById('canvas1');
+
+    // Sự kiện Pointer (hoạt động mượt cho cả chuột và cảm ứng)
+    canvas.addEventListener('pointerdown', (e) => {
+        stateTab1.dragging = true;
+        stateTab1.hasMoved = false;
+        stateTab1.startX = e.clientX;
+        stateTab1.startY = e.clientY;
+        canvas.setPointerCapture(e.pointerId);
+    });
+
+    canvas.addEventListener('pointermove', (e) => {
+        if (!stateTab1.dragging) return;
+        const dx = e.clientX - stateTab1.startX;
+        const dy = e.clientY - stateTab1.startY;
+        if (Math.hypot(dx, dy) > 5) {
+            stateTab1.hasMoved = true;
+        }
+        stateTab1.rotY += dx * 0.01;
+        stateTab1.rotX = Math.max(-1.4, Math.min(1.4, stateTab1.rotX + dy * 0.01));
+        stateTab1.startX = e.clientX;
+        stateTab1.startY = e.clientY;
+        renderTab1();
+    });
+
+    canvas.addEventListener('pointerup', (e) => {
+        if (!stateTab1.dragging) return;
+        stateTab1.dragging = false;
+        canvas.releasePointerCapture(e.pointerId);
+
+        // Nếu người dùng chạm/nhấp (không kéo xoay) -> kiểm tra chạm nguyên tử
+        if (!stateTab1.hasMoved) {
+            const rect = canvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+            handleTab1AtomTap(clickX, clickY);
+        }
+    });
+
+    // Hỗ trợ lăn chuột phóng to / thu nhỏ
+    canvas.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.1 : 0.9;
+        zoomTab1(factor);
+    }, { passive: false });
+}
+
+function handleTab1AtomTap(x, y) {
+    // Xét từ nguyên tử gần người xem nhất (z lớn nhất) xuống
+    const sorted = [...stateTab1.projectedAtoms].sort((a, b) => b.sz - a.sz);
+    for (let item of sorted) {
+        const hitRadius = Math.max(item.rProj + 8, 24); // Đảm bảo vùng chạm đủ lớn cho ngón tay
+        if (Math.hypot(x - item.sx, y - item.sy) <= hitRadius) {
+            if (item.atom.el === 'H') {
+                // map id 5 -> 4, id 6 -> 5 hoặc truyền trực tiếp id
+                toggleProton(item.atom.id);
+            } else {
+                // Nếu học sinh chạm vào S hoặc O, nhắc nhẹ
+                const banner = document.getElementById('tab1-banner');
+                const text = document.getElementById('tab1-banner-text');
+                banner.className = 'status-banner warning';
+                text.innerHTML = `<strong>Chưa chính xác:</strong> Bạn vừa chạm vào nguyên tử <strong>${item.atom.el}</strong>. Hãy chạm vào <strong>hai nguyên tử H (màu trắng)</strong> gắn với hai nhóm –OH có thể nhường dưới dạng H⁺!`;
+            }
+            return;
+        }
+    }
+}
+
+function toggleProton(atomId) {
+    // Cho phép gọi từ SVG 2D (truyền 4 hoặc 5) hoặc 3D (5 hoặc 6)
+    const normalizedId = (atomId === 4) ? 5 : (atomId === 5 && !stateTab1.atoms.find(a => a.id === atomId && a.el === 'H')) ? 5 : atomId;
+    // Quy chuẩn: hai nguyên tử H có id là 5 và 6
+    const targetId = (atomId === 4) ? 5 : (atomId === 5 && arguments[1] === 'from2d') ? 6 : atomId;
+
+    // Xử lý id chuẩn: H trái = 5, H phải = 6
+    let hId = atomId;
+    if (atomId === 4) hId = 5;
+    else if (atomId === 5 && !stateTab1.selectedProtons.has(5) && stateTab1.atoms[5].id === 5) {
+        // giữ nguyên
+    }
+
+    if (stateTab1.selectedProtons.has(hId)) {
+        stateTab1.selectedProtons.delete(hId);
+    } else {
+        stateTab1.selectedProtons.add(hId);
+    }
+
+    updateTab1UI();
+    renderTab1();
+}
+
+// Điều chỉnh lại lời gọi từ SVG 2D cho đồng nhất id 5 và 6
+window.toggleProton = function(idFromClick) {
+    const realId = (idFromClick === 4) ? 5 : (idFromClick === 5 ? 6 : idFromClick);
+    if (stateTab1.selectedProtons.has(realId)) {
+        stateTab1.selectedProtons.delete(realId);
+    } else {
+        stateTab1.selectedProtons.add(realId);
+    }
+    updateTab1UI();
+    renderTab1();
+};
+
+function updateTab1UI() {
+    const count = stateTab1.selectedProtons.size;
+    const banner = document.getElementById('tab1-banner');
+    const text = document.getElementById('tab1-banner-text');
+    const explainBox = document.getElementById('tab1-explanation');
+
+    // Cập nhật trên SVG 2D
+    const h1Circle = document.getElementById('svg2d-h1');
+    const h2Circle = document.getElementById('svg2d-h2');
+    const glowLeft = document.getElementById('svg2d-oh-left-glow');
+    const glowRight = document.getElementById('svg2d-oh-right-glow');
+
+    const hasLeft = stateTab1.selectedProtons.has(5);
+    const hasRight = stateTab1.selectedProtons.has(6);
+
+    h1Circle.setAttribute('stroke', hasLeft ? '#16a34a' : '#334155');
+    h1Circle.setAttribute('stroke-width', hasLeft ? '4' : '2.5');
+    h1Circle.setAttribute('fill', hasLeft ? '#dcfce7' : '#ffffff');
+
+    h2Circle.setAttribute('stroke', hasRight ? '#16a34a' : '#334155');
+    h2Circle.setAttribute('stroke-width', hasRight ? '4' : '2.5');
+    h2Circle.setAttribute('fill', hasRight ? '#dcfce7' : '#ffffff');
+
+    if (count === 2) {
+        glowLeft.setAttribute('opacity', '1');
+        glowRight.setAttribute('opacity', '1');
+        banner.className = 'status-banner success';
+        text.innerHTML = `<strong>Chính xác (2/2)!</strong> Hai nhóm <strong>–OH</strong> đã được làm sáng. Một phân tử H₂SO₄ có thể <strong>nhường tối đa hai proton (H⁺) qua hai nấc</strong> vì có hai nguyên tử H linh động liên kết với O trong hai nhóm –OH.`;
+        explainBox.style.display = 'block';
+    } else {
+        glowLeft.setAttribute('opacity', hasLeft ? '0.6' : '0');
+        glowRight.setAttribute('opacity', hasRight ? '0.6' : '0');
+        banner.className = 'status-banner info';
+        text.innerHTML = `<strong>Nhiệm vụ học tập:</strong> Kéo trên màn hình để xoay phân tử 3D. Hãy <strong>chạm vào hai nguyên tử H có thể được nhường dưới dạng H⁺</strong> (Đã chọn: <strong>${count}/2</strong>).`;
+        explainBox.style.display = 'none';
+    }
+}
+
+function zoomTab1(factor) {
+    stateTab1.scale = Math.max(0.8, Math.min(2.2, stateTab1.scale * factor));
+    renderTab1();
+}
+
+function resetTab1View() {
+    stateTab1.rotX = 0.08;
+    stateTab1.rotY = 0.05;
+    stateTab1.scale = 1.42;
+    renderTab1();
+}
+
+function resetTab1Task() {
+    stateTab1.selectedProtons.clear();
+    updateTab1UI();
+    renderTab1();
+}
+
+function renderTab1() {
+    const canvas = document.getElementById('canvas1');
+    if (!canvas) return;
+    const rect = canvas.parentElement.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    const W = rect.width;
+    const H = rect.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const cx = W / 2;
+    const cy = H / 2;
+    const bothSelected = stateTab1.selectedProtons.size === 2;
+
+    // 1. Chiếu toàn bộ nguyên tử sang 2D
+    const projMap = {};
+    stateTab1.projectedAtoms = [];
+
+    for (let atom of stateTab1.atoms) {
+        const camPt = transformCamera(atom, stateTab1.rotX, stateTab1.rotY);
+        const proj = projectPoint(camPt, cx, cy, stateTab1.scale);
+        const rProj = atom.r * proj.sFactor;
+        const item = { atom, ...proj, rProj };
+        projMap[atom.id] = item;
+        stateTab1.projectedAtoms.push(item);
+    }
+
+    // 2. Gom các đối tượng (liên kết + nguyên tử) để sắp xếp theo chiều sâu Z (Painter's Algorithm)
+    const renderList = [];
+
+    for (let b of H2SO4_BONDS) {
+        const p1 = projMap[b.a];
+        const p2 = projMap[b.b];
+        const avgZ = (p1.sz + p2.sz) / 2;
+        renderList.push({
+            type: 'bond',
+            z: avgZ,
+            bond: b,
+            p1,
+            p2
+        });
+    }
+
+    for (let item of stateTab1.projectedAtoms) {
+        renderList.push({
+            type: 'atom',
+            z: item.sz,
+            item
+        });
+    }
+
+    renderList.sort((a, b) => a.z - b.z);
+
+    // 3. Vẽ theo thứ tự chiều sâu
+    for (let obj of renderList) {
+        if (obj.type === 'bond') {
+            const b = obj.bond;
+            const isOH1 = b.ohGroup === 1 && stateTab1.selectedProtons.has(5);
+            const isOH2 = b.ohGroup === 2 && stateTab1.selectedProtons.has(6);
+            const isHighlighted = isOH1 || isOH2;
+
+            drawStickBond(ctx, obj.p1, obj.p2, b.order, {
+                elA: b.elA,
+                elB: b.elB,
+                highlightGlow: isHighlighted ? 'rgba(34, 197, 94, 0.42)' : null
+            });
+        } else {
+            const { atom, sx, sy, rProj } = obj.item;
+            let glow = null;
+            let isSelected = false;
+
+            if ((atom.id === 5 && stateTab1.selectedProtons.has(5)) ||
+                (atom.id === 6 && stateTab1.selectedProtons.has(6))) {
+                glow = 'rgba(34, 197, 94, 0.45)';
+                isSelected = true;
+            } else if (bothSelected && (atom.id === 1 || atom.id === 2)) {
+                // Làm sáng cả 2 nhóm -OH khi học sinh chọn đúng cả 2 nguyên tử H
+                glow = 'rgba(34, 197, 94, 0.38)';
+            }
+
+            drawSphereAtom(ctx, sx, sy, rProj, atom.el, {
+                glowColor: glow,
+                selected: isSelected
+            });
+
+            // Nhãn H+ nhỏ bên cạnh khi được chọn
+            if (isSelected) {
+                ctx.save();
+                ctx.fillStyle = '#15803d';
+                ctx.font = '800 13px system-ui, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Có thể tách H⁺', sx, sy - rProj - 10);
+                ctx.restore();
+            }
+        }
+    }
+
+    // Ghi chú trực tiếp khi hoàn thành nhiệm vụ chọn 2 nguyên tử H
+    if (bothSelected) {
+        ctx.save();
+        ctx.fillStyle = 'rgba(22, 163, 74, 0.94)';
+        const boxW = Math.min(W - 24, 420);
+        const boxH = 38;
+        const bx = (W - boxW) / 2;
+        const by = H - boxH - 12;
+        ctx.beginPath();
+        ctx.roundRect(bx, by, boxW, boxH, 10);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '700 13.5px system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('✓ Hai nhóm –OH sáng lên: Phân tử H₂SO₄ nhường tối đa 2 proton (H⁺)', W / 2, by + boxH / 2);
+        ctx.restore();
+    }
+}
+
+/* ============================================================================
+   THẺ 2: LOGIC TẠO LIÊN KẾT HYDROGEN GIỮA HAI PHÂN TỬ H2SO4
+   ============================================================================ */
+
+/**
+ * Thiết kế vị trí chuẩn cho 2 phân tử ở Thẻ 2:
+ * - Phân tử 1 (bên trái, cố định): Tâm S1 tại (-130, -5, 0).
+ *   + Nhóm –OH phải của Phân tử 1 có O2(id=2) và H6(id=6) hướng sang phải-dưới.
+ * - Phân tử 2 (bên phải, học sinh kéo và xoay):
+ *   + Khi ở cấu hình mẫu đúng: Tâm S2 tại (126, 78, 54), góc xoay rotZ = 0°.
+ *   + Khi đó nguyên tử O3 (id=3, thuộc S=O) của Phân tử 2 nằm thẳng hàng với liên kết O2–H6 của Phân tử 1
+ *     tạo thành cầu liên kết Hydrogen O–H···O gần thẳng hàng (180°).
+ */
+const TAB2_INITIAL = {
+    mol1Pos: { x: -130, y: -5, z: 0 },
+    mol1RotZ: 0,
+    mol2Pos: { x: 185, y: 40, z: 20 }, // Ban đầu đặt cách xa và lệch góc
+    mol2RotZ: 75
+};
+
+const TAB2_SAMPLE = {
+    mol2Pos: { x: 126, y: 78, z: 54 },
+    mol2RotZ: 0
+};
+
+const stateTab2 = {
+    baseAtoms: createH2SO4Atoms(),
+    mol1Pos: { ...TAB2_INITIAL.mol1Pos },
+    mol1RotZ: TAB2_INITIAL.mol1RotZ,
+    mol2Pos: { ...TAB2_INITIAL.mol2Pos },
+    mol2RotZ: TAB2_INITIAL.mol2RotZ,
+    camRotX: 0.12,
+    camRotY: -0.12,
+    scale: 1.05,
+    mode: 'move', // 'move': kéo phân tử 2 | 'camera': xoay góc nhìn 3D
+    dragging: false,
+    hasMoved: false,
+    startX: 0,
+    startY: 0,
+    projectedItems: [],
+    // Trạng thái đánh giá liên kết Hydrogen hiện tại
+    evalResult: {
+        status: 'far', // 'far' | 'wrong_angle' | 'formed'
+        pair: null
+    }
+};
+
+function getWorldAtomsForMol(molIndex) {
+    const pos = molIndex === 1 ? stateTab2.mol1Pos : stateTab2.mol2Pos;
+    const rotZ = molIndex === 1 ? stateTab2.mol1RotZ : stateTab2.mol2RotZ;
+
+    return stateTab2.baseAtoms.map(a => {
+        const rPt = rotatePointZ(a, rotZ);
+        return {
+            ...a,
+            mol: molIndex,
+            wx: rPt.x + pos.x,
+            wy: rPt.y + pos.y,
+            wz: rPt.z + pos.z
+        };
+    });
+}
+
+/**
+ * Kiểm tra điều kiện hình học để hình thành liên kết Hydrogen O–H···O giữa 2 phân tử khác nhau:
+ * 1. Xét mọi nhóm O–H thuộc Phân tử A và nguyên tử O (ưu tiên O thuộc S=O) thuộc Phân tử B (A != B).
+ * 2. Khoảng cách H···O đủ gần: 55 <= d(H, O_nhận) <= 125 (không chồng lấp và không quá xa).
+ * 3. Góc liên kết O–H···O gần thẳng hàng: góc giữa vector (O_cho -> H) và (H -> O_nhận) <= 28° (tức góc O–H···O >= 152°).
+ */
+function evaluateHydrogenBond(mol1Atoms, mol2Atoms) {
+    const allMols = [
+        { idx: 1, atoms: mol1Atoms },
+        { idx: 2, atoms: mol2Atoms }
+    ];
+
+    // Các cặp (O_id, H_id) tạo nên nhóm -OH trong một phân tử
+    const ohPairs = [
+        { oId: 2, hId: 6 },
+        { oId: 1, hId: 5 }
+    ];
+
+    let bestFormed = null;
+    let closeButWrongAngle = false;
+
+    for (let donorMol of allMols) {
+        const acceptorMol = donorMol.idx === 1 ? allMols[1] : allMols[0];
+
+        for (let oh of ohPairs) {
+            const oDonor = donorMol.atoms.find(a => a.id === oh.oId);
+            const hDonor = donorMol.atoms.find(a => a.id === oh.hId);
+
+            // Vector O -> H
+            const vOH = {
+                x: hDonor.wx - oDonor.wx,
+                y: hDonor.wy - oDonor.wy,
+                z: hDonor.wz - oDonor.wz
+            };
+            const lenOH = Math.hypot(vOH.x, vOH.y, vOH.z);
+
+            // Xét các nguyên tử O của phân tử kia (ưu tiên O thuộc S=O có id 3, 4)
+            const acceptorOxygens = acceptorMol.atoms.filter(a => a.el === 'O');
+
+            for (let oAcc of acceptorOxygens) {
+                // Khoảng cách từ H_donor tới O_acceptor
+                const vHO = {
+                    x: oAcc.wx - hDonor.wx,
+                    y: oAcc.wy - hDonor.wy,
+                    z: oAcc.wz - hDonor.wz
+                };
+                const distHO = Math.hypot(vHO.x, vHO.y, vHO.z);
+
+                // Khoảng cách từ O_donor tới O_acceptor (để phát hiện khi 2 phân tử đã ở gần nhưng quay lưng/sai hướng)
+                const distOO = Math.hypot(
+                    oAcc.wx - oDonor.wx,
+                    oAcc.wy - oDonor.wy,
+                    oAcc.wz - oDonor.wz
+                );
+
+                // Tính độ lệch khỏi đường thẳng 180 độ của O–H···O
+                const dot = (vOH.x * vHO.x + vOH.y * vHO.y + vOH.z * vHO.z) / (lenOH * (distHO || 1));
+                const clampedDot = Math.max(-1, Math.min(1, dot));
+                const deviationDeg = Math.acos(clampedDot) * 180 / Math.PI; // 0° nghĩa là O-H...O thẳng hàng 180°
+
+                // Điều kiện đủ gần và đúng hướng:
+                if (distHO >= 48 && distHO <= 122 && deviationDeg <= 26) {
+                    if (!bestFormed || distHO < bestFormed.distHO) {
+                        bestFormed = {
+                            oDonor,
+                            hDonor,
+                            oAcc,
+                            distHO,
+                            deviationDeg
+                        };
+                    }
+                } else if (distHO <= 155 || distOO <= 175) {
+                    // Hai phân tử đã được kéo lại gần nhau nhưng hướng O-H chưa chiếu đúng vào O nhận
+                    closeButWrongAngle = true;
+                }
+            }
+        }
+    }
+
+    // Kiểm tra thêm khoảng cách tâm S1 - S2 để nhận biết khi 2 phân tử ở gần nhau nhưng xoay lệch hẳn
+    const s1 = mol1Atoms[0];
+    const s2 = mol2Atoms[0];
+    const distSS = Math.hypot(s2.wx - s1.wx, s2.wy - s1.wy, s2.wz - s1.wz);
+    if (distSS < 290 && !bestFormed) {
+        closeButWrongAngle = true;
+    }
+
+    if (bestFormed) {
+        return { status: 'formed', pair: bestFormed };
+    } else if (closeButWrongAngle) {
+        return { status: 'wrong_angle', pair: null };
+    } else {
+        return { status: 'far', pair: null };
+    }
+}
+
+function updateTab2Banner() {
+    const banner = document.getElementById('tab2-banner');
+    const icon = document.getElementById('tab2-banner-icon');
+    const text = document.getElementById('tab2-banner-text');
+    const status = stateTab2.evalResult.status;
+
+    if (status === 'formed') {
+        banner.className = 'status-banner success';
+        icon.textContent = '✅';
+        text.innerHTML = `<strong>Thành công! Liên kết hydrogen (H···O) đã hình thành.</strong><br>
+        • Đoạn <strong>O–H nét liền</strong> là liên kết cộng hóa trị phân cực mạnh trong một phân tử.<br>
+        • Đoạn <strong>H···O nét đứt</strong> là liên kết hydrogen giữa hai phân tử (nguyên tử H vẫn thuộc phân tử ban đầu, không chuyển sang phân tử bên cạnh).`;
+    } else if (status === 'wrong_angle') {
+        banner.className = 'status-banner warning';
+        icon.textContent = '💡';
+        text.innerHTML = `<strong>Gợi ý:</strong> Hai phân tử đã ở gần nhau nhưng chưa đúng hướng. <strong>“Hãy xoay để liên kết O–H hướng về nguyên tử O của phân tử bên cạnh”</strong> sao cho đoạn O–H···O gần thẳng hàng!`;
+    } else {
+        banner.className = 'status-banner info';
+        icon.textContent = '🧲';
+        text.innerHTML = `<strong>Hướng dẫn:</strong> Kéo <strong>Phân tử 2</strong> lại gần <strong>Phân tử 1</strong> và dùng nút <strong>“Xoay trái” / “Xoay phải”</strong> để nhóm <strong>–OH</strong> hướng thẳng vào nguyên tử <strong>O (thuộc S=O)</strong> của phân tử kia.`;
+    }
+}
+
+function initTab2() {
+    const canvas = document.getElementById('canvas2');
+
+    canvas.addEventListener('pointerdown', (e) => {
+        stateTab2.dragging = true;
+        stateTab2.hasMoved = false;
+        stateTab2.startX = e.clientX;
+        stateTab2.startY = e.clientY;
+        canvas.setPointerCapture(e.pointerId);
+    });
+
+    canvas.addEventListener('pointermove', (e) => {
+        if (!stateTab2.dragging) return;
+        const dx = e.clientX - stateTab2.startX;
+        const dy = e.clientY - stateTab2.startY;
+        if (Math.hypot(dx, dy) > 4) {
+            stateTab2.hasMoved = true;
+        }
+
+        if (stateTab2.mode === 'move') {
+            // Di chuyển Phân tử 2 theo thao tác kéo chuột / ngón tay
+            const invScale = 1 / stateTab2.scale;
+            stateTab2.mol2Pos.x = Math.max(-60, Math.min(270, stateTab2.mol2Pos.x + dx * invScale));
+            stateTab2.mol2Pos.y = Math.max(-150, Math.min(150, stateTab2.mol2Pos.y + dy * invScale));
+        } else {
+            // Chế độ xoay góc nhìn 3D
+            stateTab2.camRotY += dx * 0.01;
+            stateTab2.camRotX = Math.max(-1.2, Math.min(1.2, stateTab2.camRotX + dy * 0.01));
+        }
+
+        stateTab2.startX = e.clientX;
+        stateTab2.startY = e.clientY;
+        renderTab2();
+    });
+
+    canvas.addEventListener('pointerup', (e) => {
+        if (!stateTab2.dragging) return;
+        stateTab2.dragging = false;
+        canvas.releasePointerCapture(e.pointerId);
+
+        if (!stateTab2.hasMoved) {
+            const rect = canvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+            handleTab2AtomTap(clickX, clickY);
+        }
+    });
+}
+
+function handleTab2AtomTap(x, y) {
+    const sorted = [...stateTab2.projectedItems].sort((a, b) => b.sz - a.sz);
+    for (let item of sorted) {
+        const hitRadius = Math.max(item.rProj + 8, 22);
+        if (Math.hypot(x - item.sx, y - item.sy) <= hitRadius) {
+            showAtomRoleInspector(item.atom);
+            return;
+        }
+    }
+}
+
+function showAtomRoleInspector(atom) {
+    const box = document.getElementById('atom-inspector');
+    const content = document.getElementById('atom-inspector-content');
+    box.style.display = 'flex';
+
+    if (atom.el === 'H') {
+        content.innerHTML = `<strong>Nguyên tử H (thuộc nhóm –OH, Phân tử ${atom.mol}):</strong> Liên kết cộng hóa trị O–H phân cực mạnh làm nguyên tử H mang một phần điện tích dương (δ⁺), đóng vai trò là <strong>vị trí cho liên kết hydrogen</strong>.`;
+    } else if (atom.el === 'O') {
+        if (atom.id === 3 || atom.id === 4) {
+            content.innerHTML = `<strong>Nguyên tử O (thuộc nhóm S=O, Phân tử ${atom.mol}):</strong> Có độ âm điện lớn, mang một phần điện tích âm (δ⁻) và có cặp electron hóa trị chưa liên kết, đóng vai trò là <strong>vị trí nhận liên kết hydrogen</strong>.`;
+        } else {
+            content.innerHTML = `<strong>Nguyên tử O (thuộc nhóm –OH, Phân tử ${atom.mol}):</strong> Hút cặp electron liên kết O–H về phía mình làm H trở nên linh động, đồng thời vẫn còn cặp electron riêng có thể tham gia tương tác.`;
+        }
+    } else {
+        content.innerHTML = `<strong>Nguyên tử S (Lưu huỳnh trung tâm, Phân tử ${atom.mol}):</strong> Tạo 2 liên kết đôi S=O và 2 liên kết đơn S–O với 4 nguyên tử O xung quanh theo hình tứ diện.`;
+    }
+}
+
+function closeInspector() {
+    document.getElementById('atom-inspector').style.display = 'none';
+}
+
+function setTab2Mode(mode) {
+    stateTab2.mode = mode;
+    document.getElementById('mode-move-btn').classList.toggle('active', mode === 'move');
+    document.getElementById('mode-camera-btn').classList.toggle('active', mode === 'camera');
+}
+
+function rotateMol2(deltaDeg) {
+    stateTab2.mol2RotZ = (stateTab2.mol2RotZ + deltaDeg) % 360;
+    renderTab2();
+}
+
+function showSampleTab2() {
+    stateTab2.mol1Pos = { ...TAB2_INITIAL.mol1Pos };
+    stateTab2.mol1RotZ = TAB2_INITIAL.mol1RotZ;
+    stateTab2.mol2Pos = { ...TAB2_SAMPLE.mol2Pos };
+    stateTab2.mol2RotZ = TAB2_SAMPLE.mol2RotZ;
+    stateTab2.camRotX = 0.12;
+    stateTab2.camRotY = -0.12;
+    renderTab2();
+}
+
+function resetTab2() {
+    stateTab2.mol1Pos = { ...TAB2_INITIAL.mol1Pos };
+    stateTab2.mol1RotZ = TAB2_INITIAL.mol1RotZ;
+    stateTab2.mol2Pos = { ...TAB2_INITIAL.mol2Pos };
+    stateTab2.mol2RotZ = TAB2_INITIAL.mol2RotZ;
+    stateTab2.camRotX = 0.12;
+    stateTab2.camRotY = -0.12;
+    closeInspector();
+    renderTab2();
+}
+
+function renderTab2() {
+    const canvas = document.getElementById('canvas2');
+    if (!canvas) return;
+    const rect = canvas.parentElement.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    const W = rect.width;
+    const H = rect.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // Tự động co giãn tỷ lệ hiển thị trên màn hình nhỏ (điện thoại)
+    const responsiveScale = Math.min(1.1, Math.max(0.68, W / 560));
+    stateTab2.scale = responsiveScale;
+
+    const cx = W / 2;
+    const cy = H / 2 + 10;
+
+    const mol1Atoms = getWorldAtomsForMol(1);
+    const mol2Atoms = getWorldAtomsForMol(2);
+
+    // Đánh giá trạng thái liên kết Hydrogen
+    stateTab2.evalResult = evaluateHydrogenBond(mol1Atoms, mol2Atoms);
+    updateTab2Banner();
+
+    const isFormed = stateTab2.evalResult.status === 'formed';
+    const pair = stateTab2.evalResult.pair;
+
+    // Chiếu tất cả nguyên tử của cả 2 phân tử
+    const projMap1 = {};
+    const projMap2 = {};
+    stateTab2.projectedItems = [];
+
+    for (let a of mol1Atoms) {
+        const camPt = transformCamera({ x: a.wx, y: a.wy, z: a.wz }, stateTab2.camRotX, stateTab2.camRotY);
+        const proj = projectPoint(camPt, cx, cy, stateTab2.scale);
+        const item = { atom: a, ...proj, rProj: a.r * proj.sFactor };
+        projMap1[a.id] = item;
+        stateTab2.projectedItems.push(item);
+    }
+
+    for (let a of mol2Atoms) {
+        const camPt = transformCamera({ x: a.wx, y: a.wy, z: a.wz }, stateTab2.camRotX, stateTab2.camRotY);
+        const proj = projectPoint(camPt, cx, cy, stateTab2.scale);
+        const item = { atom: a, ...proj, rProj: a.r * proj.sFactor };
+        projMap2[a.id] = item;
+        stateTab2.projectedItems.push(item);
+    }
+
+    // Tạo danh sách vẽ sắp xếp theo chiều sâu Z
+    const renderList = [];
+
+    for (let b of H2SO4_BONDS) {
+        const p1 = projMap1[b.a], p2 = projMap1[b.b];
+        renderList.push({ type: 'bond', mol: 1, bond: b, p1, p2, z: (p1.sz + p2.sz) / 2 });
+
+        const q1 = projMap2[b.a], q2 = projMap2[b.b];
+        renderList.push({ type: 'bond', mol: 2, bond: b, p1: q1, p2: q2, z: (q1.sz + q2.sz) / 2 });
+    }
+
+    for (let item of stateTab2.projectedItems) {
+        renderList.push({ type: 'atom', z: item.sz, item });
+    }
+
+    renderList.sort((a, b) => a.z - b.z);
+
+    // Nếu tạo liên kết Hydrogen thành công -> vẽ vùng sáng nền làm nổi bật cụm O–H···O
+    let pODonor = null, pHDonor = null, pOAcc = null;
+    if (isFormed && pair) {
+        const mapDonor = pair.oDonor.mol === 1 ? projMap1 : projMap2;
+        const mapAcc = pair.oAcc.mol === 1 ? projMap1 : projMap2;
+        pODonor = mapDonor[pair.oDonor.id];
+        pHDonor = mapDonor[pair.hDonor.id];
+        pOAcc = mapAcc[pair.oAcc.id];
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(pODonor.sx, pODonor.sy);
+        ctx.lineTo(pHDonor.sx, pHDonor.sy);
+        ctx.lineTo(pOAcc.sx, pOAcc.sy);
+        ctx.strokeStyle = 'rgba(250, 204, 21, 0.35)';
+        ctx.lineWidth = 30;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    // Vẽ các liên kết và nguyên tử
+    for (let obj of renderList) {
+        if (obj.type === 'bond') {
+            let isDonorOHBond = false;
+            if (isFormed && pair && obj.mol === pair.oDonor.mol) {
+                if ((obj.bond.a === pair.oDonor.id && obj.bond.b === pair.hDonor.id) ||
+                    (obj.bond.b === pair.oDonor.id && obj.bond.a === pair.hDonor.id)) {
+                    isDonorOHBond = true;
+                }
+            }
+
+            drawStickBond(ctx, obj.p1, obj.p2, obj.bond.order, {
+                elA: obj.bond.elA,
+                elB: obj.bond.elB,
+                highlightGlow: isDonorOHBond ? 'rgba(56, 189, 248, 0.5)' : null,
+                width: isDonorOHBond ? 11.5 : 10.5
+            });
+        } else {
+            const { atom, sx, sy, rProj } = obj.item;
+            let glow = null;
+            if (isFormed && pair) {
+                if ((atom.mol === pair.oDonor.mol && (atom.id === pair.oDonor.id || atom.id === pair.hDonor.id)) ||
+                    (atom.mol === pair.oAcc.mol && atom.id === pair.oAcc.id)) {
+                    glow = 'rgba(34, 197, 94, 0.45)';
+                }
+            }
+            drawSphereAtom(ctx, sx, sy, rProj, atom.el, { glowColor: glow });
+        }
+    }
+
+    // Vẽ nét đứt H···O và ghi chú trực tiếp trên hình khi thành công
+    if (isFormed && pODonor && pHDonor && pOAcc) {
+        ctx.save();
+
+        // Nét đứt H···O biểu diễn liên kết Hydrogen
+        ctx.beginPath();
+        ctx.setLineDash([7, 6]);
+        ctx.moveTo(pHDonor.sx, pHDonor.sy);
+        ctx.lineTo(pOAcc.sx, pOAcc.sy);
+        ctx.strokeStyle = '#16a34a';
+        ctx.lineWidth = 4.5;
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Ghi chú trực tiếp cho đoạn O–H (nét liền: Liên kết cộng hóa trị)
+        const midOHx = (pODonor.sx + pHDonor.sx) / 2;
+        const midOHy = (pODonor.sy + pHDonor.sy) / 2;
+        drawCanvasCallout(
+            ctx,
+            midOHx, midOHy,
+            midOHx - 35, midOHy - 64,
+            'O–H (nét liền): Liên kết cộng hóa trị',
+            '#0284c7'
+        );
+
+        // Ghi chú trực tiếp cho đoạn H···O (nét đứt: Liên kết hydrogen)
+        const midHOx = (pHDonor.sx + pOAcc.sx) / 2;
+        const midHOy = (pHDonor.sy + pOAcc.sy) / 2;
+        drawCanvasCallout(
+            ctx,
+            midHOx, midHOy,
+            midHOx + 35, midHOy + 66,
+            'H···O (nét đứt): Liên kết hydrogen',
+            '#16a34a'
+        );
+
+        ctx.restore();
+    }
+
+    // Nhãn tên Phân tử 1 và Phân tử 2
+    const s1Proj = projMap1[0];
+    const s2Proj = projMap2[0];
+    drawMoleculeLabel(ctx, s1Proj.sx, s1Proj.sy + 86 * stateTab2.scale, 'Phân tử H₂SO₄ (1)', '#334155');
+    drawMoleculeLabel(ctx, s2Proj.sx, s2Proj.sy + 86 * stateTab2.scale, 'Phân tử H₂SO₄ (2) - Kéo & Xoay', '#0284c7');
+}
+
+function drawCanvasCallout(ctx, targetX, targetY, boxX, boxY, text, borderColor) {
+    ctx.save();
+    ctx.font = '700 12.5px system-ui, sans-serif';
+    const paddingX = 10;
+    const textWidth = ctx.measureText(text).width;
+    const boxW = textWidth + paddingX * 2;
+    const boxH = 30;
+
+    // Giữ hộp chú thích luôn nằm gọn trong khung Canvas
+    const canvasW = ctx.canvas.width / (window.devicePixelRatio || 1);
+    const canvasH = ctx.canvas.height / (window.devicePixelRatio || 1);
+    const clampedX = Math.max(boxW / 2 + 8, Math.min(canvasW - boxW / 2 - 8, boxX));
+    const clampedY = Math.max(boxH / 2 + 8, Math.min(canvasH - boxH / 2 - 8, boxY));
+
+    // Đường chỉ dẫn từ đoạn liên kết tới hộp ghi chú
+    ctx.beginPath();
+    ctx.moveTo(targetX, targetY);
+    ctx.lineTo(clampedX, clampedY);
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Chấm tròn tại vị trí chỉ
+    ctx.beginPath();
+    ctx.arc(targetX, targetY, 4, 0, Math.PI * 2);
+    ctx.fillStyle = borderColor;
+    ctx.fill();
+
+    // Hộp chữ
+    const rx = clampedX - boxW / 2;
+    const ry = clampedY - boxH / 2;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(rx, ry, boxW, boxH, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#0f172a';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, clampedX, clampedY);
+    ctx.restore();
+}
+
+function drawMoleculeLabel(ctx, x, y, label, color) {
+    ctx.save();
+    ctx.font = '700 12px system-ui, sans-serif';
+    const w = ctx.measureText(label).width + 16;
+    const h = 24;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.88)';
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.roundRect(x - w / 2, y - h / 2, w, h, 6);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, x, y);
+    ctx.restore();
+}
+
+/* ============================================================================
+   THẺ 3: LOGIC KIỂM TRA NHANH (3 CÂU HỎI TƯƠNG TÁC)
+   ============================================================================ */
+
+const quizState = {
+    q1Count: null,
+    q1Atoms: new Set()
+};
+
+function selectQ1Count(num, btnEl) {
+    quizState.q1Count = num;
+    const buttons = document.querySelectorAll('#q1-options .opt-btn');
+    buttons.forEach(b => b.className = 'opt-btn');
+    btnEl.classList.add('selected');
+    evaluateQ1();
+}
+
+function toggleQ1Atom(atomKey) {
+    if (quizState.q1Atoms.has(atomKey)) {
+        quizState.q1Atoms.delete(atomKey);
+    } else {
+        quizState.q1Atoms.add(atomKey);
+    }
+
+    // Cập nhật giao diện mô hình câu 1
+    const allKeys = ['S', 'O1', 'O2', 'O3', 'O4', 'H1', 'H2'];
+    allKeys.forEach(k => {
+        const el = document.getElementById('q1-atom-' + k);
+        const isSel = quizState.q1Atoms.has(k);
+        if (isSel) {
+            el.setAttribute('stroke', '#0284c7');
+            el.setAttribute('stroke-width', '4');
+        } else {
+            el.setAttribute('stroke', k === 'S' ? '#ca8a04' : (k.startsWith('O') ? '#dc2626' : '#334155'));
+            el.setAttribute('stroke-width', '2.5');
+        }
+    });
+
+    document.getElementById('q1-atom-status').textContent = quizState.q1Atoms.size;
+    evaluateQ1();
+}
+
+function evaluateQ1() {
+    const fb = document.getElementById('q1-feedback');
+    if (quizState.q1Count === null && quizState.q1Atoms.size === 0) {
+        fb.className = 'quiz-feedback';
+        return;
+    }
+
+    const correctCount = quizState.q1Count === 2;
+    const correctAtoms = quizState.q1Atoms.size === 2 &&
+                         quizState.q1Atoms.has('H1') &&
+                         quizState.q1Atoms.has('H2');
+
+    if (correctCount && correctAtoms) {
+        fb.className = 'quiz-feedback correct';
+        fb.innerHTML = `<strong>✓ Hoàn toàn chính xác!</strong> Một phân tử H₂SO₄ có thể nhường tối đa <strong>2 proton (H⁺)</strong> qua hai nấc. Vị trí của chúng chính là <strong>2 nguyên tử H thuộc hai nhóm –OH</strong>.`;
+    } else {
+        fb.className = 'quiz-feedback wrong';
+        let msg = [];
+        if (quizState.q1Count !== null && !correctCount) {
+            msg.push('Số lượng proton tối đa chưa đúng (hãy đếm số nguyên tử H linh động trong phân tử H₂SO₄).');
+        } else if (quizState.q1Count === null) {
+            msg.push('Hãy chọn một đáp án ở Bước 1.');
+        }
+        if (!correctAtoms) {
+            msg.push('Trên mô hình Bước 2, hãy chạm chọn đúng 2 nguyên tử H ở hai đầu nhóm –OH (không chọn S hoặc O).');
+        }
+        fb.innerHTML = `<strong>Hãy kiểm tra lại:</strong> ${msg.join(' ')}`;
+    }
+}
+
+function answerQ2(choice, btnEl) {
+    const buttons = document.querySelectorAll('#q2-options .opt-btn');
+    buttons.forEach(b => b.className = 'opt-btn');
+
+    const fb = document.getElementById('q2-feedback');
+    if (choice === 'B') {
+        btnEl.classList.add('correct');
+        fb.className = 'quiz-feedback correct';
+        fb.innerHTML = `<strong>✓ Chính xác!</strong> Trong cấu trúc <strong>O–H···O</strong>, đoạn <strong>H···O nét đứt</strong> biểu diễn <strong>liên kết hydrogen</strong> giữa hai phân tử, còn đoạn O–H nét liền là liên kết cộng hóa trị trong một phân tử.`;
+    } else {
+        btnEl.classList.add('wrong');
+        fb.className = 'quiz-feedback wrong';
+        fb.innerHTML = `<strong>Chưa chính xác.</strong> Đoạn O–H nét liền và S=O là các liên kết cộng hóa trị trong nội bộ một phân tử. Liên kết hydrogen là lực hút tĩnh điện giữa nguyên tử H linh động (δ⁺) của phân tử này với nguyên tử O (δ⁻) của phân tử kia, được biểu diễn bằng <strong>đoạn H···O nét đứt</strong>.`;
+    }
+}
+
+function answerQ3(choice, btnEl) {
+    const buttons = document.querySelectorAll('#q3-options .opt-btn');
+    buttons.forEach(b => b.className = 'opt-btn');
+
+    const fb = document.getElementById('q3-feedback');
+    if (choice === 'hard') {
+        btnEl.classList.add('correct');
+        fb.className = 'quiz-feedback correct';
+        fb.innerHTML = `<strong>✓ Chính xác!</strong> Sulfuric acid <strong>rất khó bay hơi</strong> (nhiệt độ sôi rất cao, khoảng 337 °C).<br>
+        <strong>Giải thích:</strong> Do các phân tử H₂SO₄ tạo được nhiều <strong>liên kết hydrogen liên phân tử (O–H···O)</strong> bền vững với nhau. Liên kết hydrogen góp phần làm <strong>tăng lực hút giữa các phân tử</strong>, nên các phân tử khó tách khỏi pha lỏng hơn.`;
+    } else {
+        btnEl.classList.add('wrong');
+        fb.className = 'quiz-feedback wrong';
+        fb.innerHTML = `<strong>Chưa chính xác.</strong> Hãy lưu ý rằng giữa các phân tử H₂SO₄ có các <strong>liên kết hydrogen</strong>. Liên kết hydrogen góp phần làm <strong>tăng lực hút giữa các phân tử</strong>, giữ các phân tử gắn kết chặt chẽ hơn nên các phân tử rất <strong>khó tách khỏi pha lỏng</strong> (khó bay hơi).`;
+    }
+}
+
+/* ============================================================================
+   ĐIỀU HƯỚNG THẺ & TỰ ĐỘNG KIỂM TRA 4 TRƯỜNG HỢP TRƯỚC KHI HIỂN THỊ
+   ============================================================================ */
+
+function switchTab(tabIndex) {
+    for (let i = 1; i <= 3; i++) {
+        document.getElementById('nav-tab' + i).classList.toggle('active', i === tabIndex);
+        document.getElementById('section-tab' + i).classList.toggle('active', i === tabIndex);
+    }
+    if (tabIndex === 1) renderTab1();
+    if (tabIndex === 2) renderTab2();
+}
+
+/**
+ * Kiểm tra tự động 4 trường hợp của Thẻ 2 theo yêu cầu:
+ * 1. Đúng hướng và đủ gần -> hiện nét đứt (status === 'formed')
+ * 2. Gần nhưng sai hướng -> hiện gợi ý xoay (status === 'wrong_angle')
+ * 3. Kéo ra xa -> nét đứt biến mất (status === 'far')
+ * 4. Nút "Thử lại" -> đưa mô phỏng về trạng thái ban đầu
+ */
+function runSelfVerificationTests() {
+    // Trường hợp 1: Đúng hướng và đủ gần (nút Xem mẫu)
+    showSampleTab2();
+    console.assert(stateTab2.evalResult.status === 'formed', 'Test 1 Failed: Đúng hướng và đủ gần phải hiện nét đứt.');
+
+    // Trường hợp 2: Gần nhưng sai hướng
+    rotateMol2(90);
+    console.assert(stateTab2.evalResult.status === 'wrong_angle', 'Test 2 Failed: Gần nhưng sai hướng phải hiện gợi ý.');
+
+    // Trường hợp 3: Kéo ra xa -> nét đứt biến mất
+    stateTab2.mol2Pos.x = 240;
+    stateTab2.mol2Pos.y = 60;
+    renderTab2();
+    console.assert(stateTab2.evalResult.status === 'far', 'Test 3 Failed: Kéo ra xa nét đứt phải biến mất.');
+
+    // Trường hợp 4: Nút "Thử lại" đưa về trạng thái ban đầu
+    resetTab2();
+    console.assert(
+        stateTab2.mol2Pos.x === TAB2_INITIAL.mol2Pos.x &&
+        stateTab2.mol2RotZ === TAB2_INITIAL.mol2RotZ &&
+        stateTab2.evalResult.status === 'far',
+        'Test 4 Failed: Nút Thử lại phải đưa về vị trí ban đầu.'
+    );
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    initTab1();
+    initTab2();
+    runSelfVerificationTests();
+    renderTab1();
+});
+
+window.addEventListener('resize', () => {
+    if (document.getElementById('section-tab1').classList.contains('active')) {
+        renderTab1();
+    } else if (document.getElementById('section-tab2').classList.contains('active')) {
+        renderTab2();
+    }
+});
+</script>
+</body>
+</html>
